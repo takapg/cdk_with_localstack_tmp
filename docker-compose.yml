@@ -26,3 +26,4 @@ services:
     build: .
     environment:
       - LOCALSTACK_HOSTNAME=${LOCALHOST_IP_ADDRESS}
+    tty: true

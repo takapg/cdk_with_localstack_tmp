@@ -13,6 +13,7 @@ awsd configure set profile.localstack.format json
 
 sed -i "2ialias awsd='docker run --rm -ti -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'" ~/.profile
 sed -i "2ialias awsdl='awsd --endpoint-url=http://$1:4566 --profile=localstack'" ~/.profile
+sed -i "2iexport LOCALHOST_IP_ADDRESS=$1" ~/.profile
 
 source ~/.profile
 
