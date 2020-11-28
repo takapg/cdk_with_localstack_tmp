@@ -3,7 +3,7 @@ version: '2.1'
 services:
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
-    image: localstack/localstack
+    image: localstack/java-maven-node-python
     network_mode: bridge
     ports:
       - "4566:4566"
@@ -21,6 +21,7 @@ services:
     volumes:
       - "${TMPDIR:-/tmp/localstack}:/tmp/localstack"
       - "/var/run/docker.sock:/var/run/docker.sock"
+    tty: true
   node_app:
     container_name: node_app
     build: .
