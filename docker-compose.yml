@@ -27,4 +27,6 @@ services:
     build: .
     environment:
       - LOCALSTACK_HOSTNAME=${LOCALHOST_IP_ADDRESS}
+    volumes:
+      - ./app/sample:/app/sample
     tty: true
