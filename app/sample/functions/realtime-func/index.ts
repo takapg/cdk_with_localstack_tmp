@@ -32,7 +32,7 @@ export const handler: DynamoDBStreamHandler = (event, context) => {
                 const response = await db.update({
                     TableName: TABLE_NAME,
                     Key: {
-                        'No': no
+                        'No': Number(no)
                     },
                     UpdateExpression: 'set issend=:val',
                     ExpressionAttributeValues: {
