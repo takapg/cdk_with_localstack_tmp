@@ -16,7 +16,7 @@ interface UpdatedResponse {
 }
 
 export const handler: DynamoDBStreamHandler = (event, context) => {
-    event.Records.forEach(async record => {
+    event.Records.forEach(record => {
         // TODO Complex Processing
         console.log(record.eventName);
         console.log(JSON.stringify(record, null, 2));
@@ -27,8 +27,7 @@ export const handler: DynamoDBStreamHandler = (event, context) => {
             if (newImage) {
                 const no = newImage['No']['N'];
 
-                console.log(`1111111111111`);
-                const response = await db.update({
+                db.update({
                     TableName: TABLE_NAME,
                     Key: {
                         'No': Number(no)
@@ -38,23 +37,23 @@ export const handler: DynamoDBStreamHandler = (event, context) => {
                         ':val': 1
                     },
                     ReturnValues: 'UPDATED_OLD'
-                }).promise();
-                console.log(`222222222222222222`);
-                console.log(response);
+                }, (err, data) => {
+                    console.log(data);
 
-                const resp = response.Attributes as UpdatedResponse;
-                if (resp.issend == 0) {
-                    const from = newImage['from']['S'];
-                    const to = newImage['to']['S'];
-                    const sub = newImage['sub']['S'];
-                    const text = newImage['text']['S'];
+                    const resp = data.Attributes as UpdatedResponse;
 
-                    console.log(`from: ${from}`);
-                    console.log(`to: ${to}`);
-                    console.log(`sub: ${sub}`);
-                    console.log(`text: ${text}`);
-                }
-                console.log(`3333333333333333`);
+                    if (resp.issend === 0) {
+                        const from = newImage['from']['S'];
+                        const to = newImage['to']['S'];
+                        const sub = newImage['sub']['S'];
+                        const text = newImage['text']['S'];
+
+                        console.log(`from: ${from}`);
+                        console.log(`to: ${to}`);
+                        console.log(`sub: ${sub}`);
+                        console.log(`text: ${text}`);
+                    }
+                });
             }
         } else if (record.eventName === 'MODIFY') {
             console.log(`why MODIFY ?`);
