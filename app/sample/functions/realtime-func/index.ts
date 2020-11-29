@@ -11,8 +11,7 @@ const db = new AWS.DynamoDB.DocumentClient(dynamoOpt);
 const TABLE_NAME = process.env.TABLE_NAME || '';
 const PRIMARY_KEY = process.env.PRIMARY_KEY || '';
 
-interface NoticeQueue {
-    No: number,
+interface UpdatedResponse {
     issend: number
 }
 
@@ -41,9 +40,10 @@ export const handler: DynamoDBStreamHandler = (event, context) => {
                     ReturnValues: 'UPDATED_OLD'
                 }).promise();
                 console.log(`222222222222222222`);
+                console.log(response);
 
-                const resp = response.$response.data as NoticeQueue;
-                // if (resp.issend == 0) {
+                const resp = response.Attributes as UpdatedResponse;
+                if (resp.issend == 0) {
                     const from = newImage['from']['S'];
                     const to = newImage['to']['S'];
                     const sub = newImage['sub']['S'];
@@ -53,7 +53,7 @@ export const handler: DynamoDBStreamHandler = (event, context) => {
                     console.log(`to: ${to}`);
                     console.log(`sub: ${sub}`);
                     console.log(`text: ${text}`);
-                // }
+                }
                 console.log(`3333333333333333`);
             }
         } else if (record.eventName === 'MODIFY') {
