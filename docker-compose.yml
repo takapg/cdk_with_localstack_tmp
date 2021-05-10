@@ -3,7 +3,7 @@ version: '2.1'
 services:
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
-    image: localstack/java-maven-node-python
+    image: localstack/localstack
     network_mode: bridge
     ports:
       - "4566:4566"
@@ -28,5 +28,5 @@ services:
     environment:
       - LOCALSTACK_HOSTNAME=${LOCALHOST_IP_ADDRESS}
     volumes:
-      - ./app/sample:/app/sample
+      - ./app:/app
     tty: true
